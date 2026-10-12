@@ -27,7 +27,6 @@ seed (`cdmauch`).
 - [`submission.txt`](submission.txt) — the six captured flags, one per line.
 - [`AI_WORKFLOW.md`](AI_WORKFLOW.md) — phase-by-phase record of how I directed
   Claude Code during the test.
-- [`AI_USAGE.md`](AI_USAGE.md) — AI-usage summary.
 - Proof-of-Concept write-ups (each with the exact request/command and the actual
   response, plus the raw capture it references):
   1. [`poc/01_sqli.md`](poc/01_sqli.md) — SQL injection (login bypass)
