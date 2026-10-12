@@ -1,34 +1,46 @@
 ## AI Usage
 
-I used **Claude Code** to help drive the authorized penetration test of the
-instructor-provided Vuln Hub app, which runs only on my own machine. I remained
-responsible for the work and can explain every step below.
+**Goal.** Run an authorized, local-only penetration test of the instructor-
+provided Vuln Hub and produce this submission. I directed the work; **Claude
+Code** (Anthropic's agentic CLI) executed the tool calls and drafted the
+write-ups under my direction. The full phase-by-phase record (original session
+plus later corrections) is in `AI_WORKFLOW.md`; the report's own account is
+`PENTEST_REPORT.md` §9. This file and the README's `## AI Usage` section are the
+same summary.
 
-### What I did
-- Set up and ran the target locally with `FLAG_SEED=cdmauch`; confirmed scope and
-  that I was authorized to test only this app.
-- Directed the engagement, approved each action, and provided my FHSU username so
-  the flags could be validated.
-- Reviewed every request, response, and flag; ran `check_flags.py` output
-  (`6/6 valid`); and verified the findings match the app's behavior.
+**How it ran (goal → tool calls → results → my review).** For each step I set a
+goal; Claude ran the tool calls (`curl`, file read/write, `git`) and the real
+results were saved under `poc/` and shown back to me; I then decided whether to
+continue, approving each finding in turn.
 
-### What Claude Code did (under my direction)
-- Read `app.py` and the Track A `README.md` to locate the six planted bugs.
-- Executed one finding at a time with `curl`, capturing the exact request and the
-  actual response for each:
-  1. **SQL injection** — login bypass with `username=admin' -- -`.
-  2. **IDOR** — read admin's `/messages/1` from a normal `alice` session.
-  3. **Stored XSS** — posted a `<script>…document.cookie…/grab</script>` comment;
-     the simulated admin bot leaked its cookie to `/grab`.
-  4. **Broken authorization** — forged `auth=base64("hacker:superadmin")` to reach
-     `/vault`.
-  5. **Path traversal** — `/download?file=../private/employee_notes.txt`.
-  6. **Sensitive data exposure** — `/robots.txt` → `/backups/vulnhub.sql.bak`.
-- Saved per-finding PoCs and raw responses under `poc/`, wrote `submission.txt`,
-  and drafted this report (`report.md`).
+**Original testing session.** Claude read `app.py` and the Track A README, then
+exploited the six bugs one at a time with `curl` — SQLi login bypass; IDOR on
+`/messages/1`; stored XSS through the guestbook to `/grab`; forged `superadmin`
+cookie to `/vault`; path traversal on `/download`; exposed backup via
+`/robots.txt` → `/backups/`. Each flag was read from the live response and saved
+under `poc/`. Claude wrote `submission.txt` and drafted `PENTEST_REPORT.md`, then
+initialized the Git repository.
 
-### What I verified myself
-- No flags were invented: every flag was read from a live HTTP response produced
-  by the exploit, then independently confirmed with
-  `python check_flags.py submission.txt --username cdmauch` (6/6 VALID).
-- All testing stayed within scope (localhost, this app only).
+**Later corrections (2026-10-11).** At my direction Claude corrected several
+technical explanations in the report (the XSS bot is a simulation that scans
+comments and makes a request, not a browser running JavaScript; `os.path.join`
+concatenates while the OS resolves `..`; the authorization remediation now
+requires session-signature verification; CWE-548 was removed for lack of
+directory-listing evidence; the "secrets regenerate" claim was corrected to note
+the Base64 cookie is deterministic). Claude also captured extra evidence (IDOR
+and `/vault` baselines, a full three-stage XSS capture, honest backup-filename
+provenance) and filled the signed name/date after I confirmed the authorization
+statement.
+
+**What I did vs. what Claude did.** Claude drafted all report prose, the PoCs, and
+these AI-usage notes, and ran the exploits and `git`. What I have confirmed is
+explicit: I supplied `FLAG_SEED=cdmauch` and my name, confirmed the authorization
+statement is accurate, authorized the typed signature/date, directed each step,
+and directed the technical corrections. Independent line-by-line review of every
+captured request/response is my responsibility; the evidence is preserved under
+`poc/` for that review.
+
+**Integrity.** No tests, results, screenshots, or flag values were invented.
+Every flag was read from a live HTTP response and independently validated by the
+starter's `check_flags.py` (6/6 valid for `cdmauch`); none was taken from the
+planted local files.

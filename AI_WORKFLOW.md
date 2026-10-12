@@ -10,6 +10,26 @@ stated rather than invented.
 **Agent:** Claude Code (Claude Opus). **Target:** local Vuln Hub at
 `http://127.0.0.1:5000`, authorized practice target only.
 
+**How to read this record (goal → tool calls → results → my review).** In each
+phase I set a goal and gave instructions; Claude issued the tool calls and the
+real results were captured (mostly under `poc/`) and shown back to me; I then
+decided whether to continue, approving each finding in turn ("yes, continue").
+
+**Original session vs. later corrections.** Phases 1–10 are the original testing
+session (recon, the six findings, flag validation, first drafts, Git init).
+Phases 11 onward (including Part B below) are later documentation, corrections,
+and evidence supplements — among them technical corrections to the report and
+additional captures made on 2026-10-11.
+
+**Honesty note on the "What I reviewed/verified" lines.** Those lines describe my
+role as the student. What I have actually confirmed in-session is explicit: I
+supplied `FLAG_SEED=cdmauch` and my name, confirmed the Authorization & Ethics
+statement is accurate, authorized the typed signature/date, directed each step,
+and directed the technical corrections. Independent line-by-line review of every
+saved request/response remains my responsibility; the evidence is preserved under
+`poc/` for that review, and this document does not assert a review I have not
+confirmed (see "Remaining factual questions" at the end).
+
 ---
 
 ## Phase 1 — Recon, scope confirmation, and setup
@@ -328,10 +348,103 @@ recollection of the session before submitting.
 
 ---
 
-### Items still requiring my input
-- Replace the tester name and sign/date the authorization statement in
-  `PENTEST_REPORT.md` (`[VERIFY: ...]`).
-- Add browser screenshots if my rubric requires them (evidence here is saved as
-  HTTP request/response text under `poc/`).
-- Confirm the git author name (`Datcat78`) is acceptable, or set my real name for
-  the repo before pushing to GitHub as `miniproject4<MyFullName>`.
+---
+
+# Part B — Later documentation, corrections, and evidence supplements
+
+Everything below happened after the original session (Phases 1–10) and the first
+report/Git work (Phases 11–13). It is included so the record distinguishes the
+original test from the later corrections.
+
+## Phase 14 — Narrow the repo to the required deliverables
+
+**1. Objective.** Track only `submission.txt`, the `poc/` evidence, and the
+pentest report.
+**2. Tools/commands.** `git rm -r --cached .`; `git add` of the deliverables;
+`git add -f submission.txt`; `git commit`.
+**3. Results.** Repo narrowed; the instructor app source and other files were
+untracked but kept on disk.
+**4. What I reviewed/verified.** I asked for this narrowing and saw the resulting
+tracked-file list.
+**5. Changes after unsuccessful attempts.** `submission.txt` is in `.gitignore`,
+so it had to be force-added.
+
+## Phase 15 — Full report, restore, and student README
+
+**1. Objective.** Produce the full `PENTEST_REPORT.md`; later restore
+`AI_WORKFLOW.md` from commit `b819a21` and re-add `AI_USAGE.md`; and create a
+student `README.md`.
+**2. Tools/commands.** `Write` (`PENTEST_REPORT.md`, `README.md`);
+`git checkout b819a21 -- AI_WORKFLOW.md`; `git add` / `commit` / `push`.
+**3. Results.** Full report created with `[VERIFY: ...]` placeholders;
+`AI_WORKFLOW.md` restored byte-identical to `b819a21`; README and `AI_USAGE.md`
+tracked and pushed.
+**4. What I reviewed/verified.** I requested the restore; the restore was shown
+to be byte-identical to `b819a21` (empty diff).
+**5. Changes after unsuccessful attempts.** The student README overwrote the
+instructor `README.md` on disk; the original remains recoverable from Git
+history.
+
+## Phase 16 — Technical corrections to the report
+
+**1. Objective.** Fix specific inaccuracies I identified in `PENTEST_REPORT.md`.
+**2. Tools/commands.** `Read` / `Edit` on `PENTEST_REPORT.md`; `git commit` /
+`push`.
+**3. Results.** Corrected the XSS-bot description (simulation, not a browser
+running JS), the traversal mechanism (`os.path.join` concatenates; the OS
+resolves `..`), the authorization remediation (require signature verification),
+removed CWE-548 (no directory-listing evidence), and corrected the cookie/secret
+claim (Base64 cookie is deterministic).
+**4. What I reviewed/verified.** I directed each of these corrections; Claude
+checked them against `app.py` before editing.
+**5. Changes after unsuccessful attempts.** None.
+
+## Phase 17 — Fill the signed name/date
+
+**1. Objective.** Complete the signature fields in `PENTEST_REPORT.md`.
+**2. Tools/commands.** `AskUserQuestion` (confirm authorization + request name);
+`Edit`; `git commit` / `push`.
+**3. Results.** Tester/signature set to "Coyt Mauch", date 2026-10-11; the
+resolved name and signature/date `[VERIFY: ...]` placeholders were removed; the
+README student name was updated to match.
+**4. What I reviewed/verified.** I confirmed the Authorization & Ethics statement
+is accurate and provided my name.
+**5. Changes after unsuccessful attempts.** The structured question did not
+capture my typed name, so Claude re-asked in chat and I replied "coyt mauch".
+
+## Phase 18 — Supplemental PoC captures (live, 2026-10-11)
+
+**1. Objective.** Strengthen the evidence (IDOR and `/vault` baselines, a full
+XSS capture, and honest backup-filename provenance), testing only the live local
+target.
+**2. Tools/commands.** `curl` against `127.0.0.1:5000` (availability + seed
+check, `alice` login, `/messages`, `/vault`, guestbook submit, `/grab` poll,
+`/robots.txt`, a `/backups/` listing test, and the backup fetch); appended
+evidence notes to `poc/*.md`; `git commit` / `push`.
+**3. Results.** Target confirmed up with a real seed; new captures saved under
+`poc/`; backup provenance documented honestly (`robots.txt` discloses the path,
+the directory is not listable (`404`), the filename came from grey-box source
+review, and the flag was read over HTTP — not from the local file).
+**4. What I reviewed/verified.** I directed this supplement; the raw captures are
+under `poc/` for my review.
+**5. Changes after unsuccessful attempts.** None.
+
+---
+
+### Items completed since the original session
+- Tester name and signature/date in `PENTEST_REPORT.md` — **done** (Coyt Mauch,
+  2026-10-11); resolved `[VERIFY: ...]` placeholders removed.
+- Repo pushed to GitHub as `miniproject4coytmauch` (current Git author:
+  `Datcat78`).
+- The three AI-usage write-ups (`AI_WORKFLOW.md`, `PENTEST_REPORT.md` §9, and the
+  README / `AI_USAGE.md`) reconciled to one consistent, honest account.
+
+### Remaining factual questions for me
+- Is my name correct as **"Coyt Mauch"** (exact spelling; any middle name or
+  initial)?
+- Is the Git author name **`Datcat78`** acceptable for submission, or should it be
+  my real name?
+- Does the rubric require **browser screenshots** in addition to the `poc/` text
+  captures?
+- Have I **personally reviewed** each saved request/response for accuracy? This is
+  my responsibility and is not asserted as done anywhere in these documents.

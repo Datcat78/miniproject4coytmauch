@@ -135,31 +135,41 @@ Expected output: each flag prints `VALID`, ending with
 
 ## AI Usage
 
-I used **Claude Code** (Anthropic's agentic CLI) as an assistant for this
-authorized, local-only test. I remained responsible for the work and can explain
-every step; a detailed, phase-by-phase account is in
-[`AI_WORKFLOW.md`](AI_WORKFLOW.md).
+**Goal.** Run an authorized, local-only penetration test of the instructor-
+provided Vuln Hub and produce this submission. I directed the work; **Claude
+Code** (Anthropic's agentic CLI) executed the tool calls and drafted the
+write-ups under my direction. The full phase-by-phase record (original session
+plus later corrections) is in [`AI_WORKFLOW.md`](AI_WORKFLOW.md); the report's own
+account is [`PENTEST_REPORT.md`](PENTEST_REPORT.md) §9. This section and
+[`AI_USAGE.md`](AI_USAGE.md) are the same summary.
 
-**What Claude contributed (under my direction):**
-- Read the starter's `app.py` and Track A README to locate the six planted bugs.
-- Executed the exploits one finding at a time with `curl`, capturing the exact
-  request and the actual response for each, and extracting the flag from the live
-  response (not from source or the database).
-- Saved the per-finding PoCs and raw responses under `poc/`, wrote
-  `submission.txt`, and drafted `PENTEST_REPORT.md`, `AI_WORKFLOW.md`, this
-  README, and `AI_USAGE.md`.
-- Initialized the Git repository and organized the submission.
+**How it ran (goal → tool calls → results → my review).** For each step I set a
+goal; Claude ran the tool calls (`curl`, file read/write, `git`) and the real
+results were saved under `poc/` and shown back to me; I then decided whether to
+continue, approving each finding in turn.
 
-**My actual verification responsibilities:**
-- I authorized and ran the test against only my local Vuln Hub instance, and set
-  `FLAG_SEED=cdmauch`.
-- I directed each step, reviewed every request/response and captured flag, and
-  provided my FHSU username.
-- I ran (and confirmed) the `check_flags.py` result of **6/6 valid**.
-- I am responsible for finalizing items that require my personal input: replacing
-  my name and signing/dating the authorization statement in `PENTEST_REPORT.md`,
-  and confirming the accuracy of every statement before submission.
+**Original testing session.** Claude read `app.py` and the Track A README, then
+exploited the six bugs one at a time with `curl` — SQLi login bypass; IDOR on
+`/messages/1`; stored XSS through the guestbook to `/grab`; forged `superadmin`
+cookie to `/vault`; path traversal on `/download`; exposed backup via
+`/robots.txt` → `/backups/`. Each flag was read from the live response and saved
+under `poc/`. Claude wrote `submission.txt` and drafted `PENTEST_REPORT.md`, then
+initialized the Git repository.
 
-**Integrity:** No tests, results, screenshots, or flag values were invented.
-Every flag was read from a live HTTP response produced by the corresponding
-exploit and independently validated by the starter's `check_flags.py`.
+**Later corrections (2026-10-11).** At my direction Claude corrected several
+technical explanations in the report, captured extra evidence (IDOR and `/vault`
+baselines, a full three-stage XSS capture, honest backup-filename provenance),
+and filled the signed name/date after I confirmed the authorization statement.
+
+**What I did vs. what Claude did.** Claude drafted all report prose, the PoCs, and
+these AI-usage notes, and ran the exploits and `git`. What I have confirmed is
+explicit: I supplied `FLAG_SEED=cdmauch` and my name, confirmed the authorization
+statement is accurate, authorized the typed signature/date, directed each step,
+and directed the technical corrections. Independent line-by-line review of every
+captured request/response is my responsibility; the evidence is preserved under
+`poc/` for that review.
+
+**Integrity.** No tests, results, screenshots, or flag values were invented.
+Every flag was read from a live HTTP response and independently validated by the
+starter's `check_flags.py` (6/6 valid for `cdmauch`); none was taken from the
+planted local files.
