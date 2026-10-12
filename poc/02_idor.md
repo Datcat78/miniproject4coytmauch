@@ -38,3 +38,13 @@ so the object reference (the id) is enough to read anyone's message.
   UI hiding other ids.
 - Consider unguessable identifiers (UUIDs) as defense-in-depth (not a substitute
   for the access check).
+
+---
+
+## Additional captured evidence (reproduction 2026-10-11)
+
+- `poc/02_idor_baseline_login.txt` — legitimate `alice` login (`302`, cookie
+  decodes to `alice:user`).
+- `poc/02_idor_baseline_messages.txt` — **IDOR baseline**: Alice's own message
+  list shows **only** `#4 — Grocery list` and `#5 — Vacation` (she does not own
+  #1). This establishes that reading `/messages/1` is cross-user access.

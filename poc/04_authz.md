@@ -38,3 +38,12 @@ path ever grants `superadmin`, but the attacker simply asserts it.
 - Store only an opaque session id client-side; keep role/identity **server-side**
   and look it up per request — never trust a role from the client.
 - Enforce authorization from the server's record of the user, and default-deny.
+
+---
+
+## Additional captured evidence (reproduction 2026-10-11)
+
+- `poc/04_authz_baseline_403.txt` — **normal-user baseline**: with the
+  legitimate `alice:user` cookie, `GET /vault` returns `HTTP/1.1 403 FORBIDDEN`
+  ("403 — superadmins only."). This is the control that the forged
+  `hacker:superadmin` cookie bypasses to reach `200 OK` + the flag.
