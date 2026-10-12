@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Vuln Hub — INF601 Practice Target</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">Vuln Hub</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/messages">Messages</a>
+      <a href="/guestbook">Guestbook</a>
+      <a href="/download?file=welcome.txt">Downloads</a>
+      
+    </nav>
+  </header>
+  
+  <main>
+    
+<h1>Collected data</h1>
+<p class="hint">This endpoint records anything sent to it as a query string. If your
+stored-XSS payload fired in the admin's browser, whatever it sent shows up here.</p>
+
+  <ul>
+    <li><code>c=session=admin; flag=FLAG{xss_d7ddad05744e}</code></li>
+  </ul>
+
+
+  </main>
+  <footer>
+    <p>⚠️ Intentionally vulnerable practice target — run locally only. Not for production use.</p>
+  </footer>
+</body>
+</html>

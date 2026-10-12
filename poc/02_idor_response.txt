@@ -1,0 +1,42 @@
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.13.15
+Date: Mon, 12 Oct 2026 00:57:02 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 876
+Connection: close
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Vuln Hub — INF601 Practice Target</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">Vuln Hub</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/messages">Messages</a>
+      <a href="/guestbook">Guestbook</a>
+      <a href="/download?file=welcome.txt">Downloads</a>
+      <a href="/logout">Logout (alice)</a>
+    </nav>
+  </header>
+  
+  <main>
+    
+
+  <p><a href="/messages">&larr; back to your messages</a></p>
+  <h1>#1 — Onboarding secret</h1>
+  <p class="meta">To: admin</p>
+  <p>Internal only. Do not share. FLAG{idor_25b3a6bacc94}</p>
+
+
+  </main>
+  <footer>
+    <p>⚠️ Intentionally vulnerable practice target — run locally only. Not for production use.</p>
+  </footer>
+</body>
+</html>

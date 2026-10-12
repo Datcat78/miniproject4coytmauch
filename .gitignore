@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+vulnhub.db
+public/welcome.txt
+private/employee_notes.txt
+backups/vulnhub.sql.bak
+submission.txt
+.venv/
