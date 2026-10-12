@@ -2,7 +2,7 @@
 
 Track: A
 
-**Student:** cdmauch (FHSU) — _replace with your full name before submitting_
+**Student:** Coyt Mauch (FHSU username / `FLAG_SEED`: `cdmauch`)
 
 ## Project overview
 
