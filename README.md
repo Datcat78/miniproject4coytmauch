@@ -1,10 +1,8 @@
-# INF601 Mini Project 4 — Vuln Hub Penetration Test
+# INF601 - Advanced Programming in Python
+# Coyt Mauch
+# Mini Project 4
 
-Track: A
-
-**Student:** Coyt Mauch (FHSU username / `FLAG_SEED`: `cdmauch`)
-
-## Project overview
+## Project overview - Track A
 
 This repository is my submission for **Mini Project 4 (Cybersecurity Track A)**.
 It documents an authorized penetration test of **Vuln Hub**, the instructor-
@@ -138,10 +136,7 @@ Expected output: each flag prints `VALID`, ending with
 **Goal.** Run an authorized, local-only penetration test of the instructor-
 provided Vuln Hub and produce this submission. I directed the work; **Claude
 Code** (Anthropic's agentic CLI) executed the tool calls and drafted the
-write-ups under my direction. The full phase-by-phase record (original session
-plus later corrections) is in [`AI_WORKFLOW.md`](AI_WORKFLOW.md); the report's own
-account is [`PENTEST_REPORT.md`](PENTEST_REPORT.md) §9. This section and
-[`AI_USAGE.md`](AI_USAGE.md) are the same summary.
+write-ups under my direction. The full phase-by-phase record.
 
 **How it ran (goal → tool calls → results → my review).** For each step I set a
 goal; Claude ran the tool calls (`curl`, file read/write, `git`) and the real
@@ -156,11 +151,6 @@ cookie to `/vault`; path traversal on `/download`; exposed backup via
 under `poc/`. Claude wrote `submission.txt` and drafted `PENTEST_REPORT.md`, then
 initialized the Git repository.
 
-**Later corrections (2026-10-11).** At my direction Claude corrected several
-technical explanations in the report, captured extra evidence (IDOR and `/vault`
-baselines, a full three-stage XSS capture, honest backup-filename provenance),
-and filled the signed name/date after I confirmed the authorization statement.
-
 **What I did vs. what Claude did.** Claude drafted all report prose, the PoCs, and
 these AI-usage notes, and ran the exploits and `git`. What I have confirmed is
 explicit: I supplied `FLAG_SEED=cdmauch` and my name, confirmed the authorization
@@ -168,8 +158,3 @@ statement is accurate, authorized the typed signature/date, directed each step,
 and directed the technical corrections. Independent line-by-line review of every
 captured request/response is my responsibility; the evidence is preserved under
 `poc/` for that review.
-
-**Integrity.** No tests, results, screenshots, or flag values were invented.
-Every flag was read from a live HTTP response and independently validated by the
-starter's `check_flags.py` (6/6 valid for `cdmauch`); none was taken from the
-planted local files.
